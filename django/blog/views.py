@@ -1,5 +1,8 @@
 from django.shortcuts import render
+from django.utils import timezone
+from .models import Post
 
 def post_list(request):
-    return render(request, 'blog/post_list.html', {})
+    posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date') #Дав ім'я QuerySet
+    return render(request, 'blog/post_list.html', {'posts': posts}) #В {}- дужках вказав що потріно передати для використання в шаблоні
     
